@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: white; /* Set the background to white */
+            color: black; /* Set the text color to black */
+            font-family: Arial, sans-serif; /* Use a standard font */
+        }
+        .orders {
+            margin-top: 20px;
+        }
+        .orders ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .orders li {
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">Welcome '{{ customer_name }}'</h1>
+
+        <!-- Orders Section -->
+        <div class="orders">
+            <h2>Your Orders</h2>
+            <ul class="list-group">
+                {% for order in orders %}
+                    <li class="list-group-item">Order Number: {{ order.order_id }}, Supplier Name: {{ order.supplier_name }}, Equipment Name: {{ order.equipment_name }}, Quantity: {{ order.quantity }}, Order placed on: {{ order.order_date }}</li>
+                {% else %}
+                    <li class="list-group-item">No orders found</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Order Placement Form -->
+        <form method="post" action="/place_order" class="my-4">
+            <div class="form-group">
+                <label for="equipment_id">Select Equipment:</label>
+                <select name="equipment_id" id="equipment_id" class="form-control">
+                    {% for equipment in equipments %}
+                        <option value="{{ equipment.equipment_id }}">{{ equipment.equipment_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="supplier_id">Select Supplier:</label>
+                <select name="supplier_id" id="supplier_id" class="form-control">
+                    {% for supplier in suppliers %}
+                        <option value="{{ supplier.supplier_id }}">{{ supplier.supplier_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Buy" class="btn btn-primary">
+            </div>
+            {% for message in get_flashed_messages() %}
+                {% if message[1] == 'order-placement-error' %}
+                    <div class="alert alert-danger">{{ message[0] }}</div>
+                {% endif %}
+            {% endfor %}
+        </form>
+
+        <!-- Order Update Form -->
+        <form method="post" action="/update_order" class="my-4">
+            <div class="form-group">
+                <label for="order_id_update">Order ID:</label>
+                <input type="number" id="order_id_update" name="order_id" min="1" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="quantity_update">New Quantity:</label>
+                <input type="number" id="quantity_update" name="quantity" min="1" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update Order" class="btn btn-warning">
+            </div>
+        </form>
+
+        <!-- Order Delete Form -->
+        <form method="post" action="/delete_order" class="my-4">
+            <div class="form-group">
+                <label for="order_id_delete">Order ID:</label>
+                <input type="number" id="order_id_delete" name="order_id" min="1" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Delete Order" class="btn btn-danger">
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and its dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

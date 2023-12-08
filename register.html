@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - Medical Equipment Supplier System</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-5">Customer Registration</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+                {{ get_flashed_messages() }}  <!-- Clear flashed messages -->
+            {% endif %}
+        {% endwith %}
+
+        <form method="post" action="/register" class="mt-4">
+            <div class="form-group">
+                <label for="customer_name">Name:</label>
+                <input type="text" id="customer_name" name="customer_name" class="form-control">
+            </div>
+
+            <!-- Repeat this structure for each input field -->
+            <div class="form-group">
+                <label for="address1">Address Line 1:</label>
+                <input type="text" id="address1" name="address1" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="address2">Address Line 2:</label>
+                <input type="text" id="address2" name="address2" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="address3">Address Line 3:</label>
+                <input type="text" id="address3" name="address3" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="zipcode">Zip Code:</label>
+                <input type="text" id="zipcode" name="zipcode" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="country_id">Country:</label>
+                <select name="country_id" id="country_id" class="form-control">
+                    {% for country in location_data['countries'] %}
+                        <option value="{{ country[0] }}">{{ country[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="state_id">State:</label>
+                <select name="state_id" id="state_id" class="form-control">
+                    {% for state in location_data['states'] %}
+                        <option value="{{ state[0] }}">{{ state[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="city_id">City:</label>
+                <select name="city_id" id="city_id" class="form-control">
+                    {% for city in location_data['cities'] %}
+                        <option value="{{ city[0] }}">{{ city[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="customertype_id">Customer Type:</label>
+                <select name="customertype_id" id="customertype_id" class="form-control">
+                    {% for customertype_id, customertype_name in customer_types %}
+                        <option value="{{ customertype_id }}">{{ customertype_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <input type="submit" value="Register" class="btn btn-primary">
+        </form>
+    </div>
+
+    <!-- Include Bootstrap JS and its dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
